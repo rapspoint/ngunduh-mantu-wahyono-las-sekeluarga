@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Undangan Ngunduh Mantu - Rizki & Zikha</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS untuk Styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- AOS Library untuk Animasi Scroll -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- FontAwesome untuk Icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f9f7f3; /* Warna cream elegan */
+            color: #4a4a4a;
+            overflow: hidden; /* Dikunci sebelum undangan dibuka */
+        }
+        h1, h2, h3, .font-serif {
+            font-family: 'Playfair Display', serif;
+        }
+        .bg-sage {
+            background-color: #8A9A86; /* Sage green modern */
+        }
+        .text-sage {
+            color: #8A9A86;
+        }
+        /* Overlay Pembuka */
+        #welcome-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgExVSPQ-m-BT-w15JGp4exR5EA3zCNA2CrD44QnQ5Wr5JSl2upm5TpLEHktR_7DtTS2pbvd1NfddMuRLsT0GYRri9BEqG4wCazv-3Z0NcA0vTz5d8q-_R5KqI9UNRmDH41mr3ZgOp1VpHy8ui_3UuXotkSHNG7RkK2XMBANdaG_Hqq2ByZ-jljkPsKgvai/s6240/Sarasvati.officiall-140.jpg') center/cover;
+            z-index: 50;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            transition: transform 1s ease-in-out, opacity 1s ease-in-out;
+        }
+        .opened {
+            transform: translateY(-100%);
+            opacity: 0;
+            pointer-events: none;
+        }
+        /* Tombol Musik Putar */
+        .music-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #8A9A86;
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            z-index: 40;
+            cursor: pointer;
+            animation: spin 4s linear infinite;
+        }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+        .paused { animation: none; }
+        
+        /* Bingkai Foto */
+        .img-frame {
+            border-radius: 15px 50px 15px 50px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            border: 4px solid #8A9A86;
+        }
+        /* Panah Scroll */
+        .scroll-down {
+            animation: bounce 2s infinite;
+        }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(10px); }
+            60% { transform: translateY(5px); }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Musik Latar (File musik lokal, siap diedit/diganti dengan file MP3 Anda sendiri bernama "music.mp3" di folder yang sama) -->
+    <audio id="bg-music" loop>
+        <source src="music.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Overlay Halaman Depan -->
+    <div id="welcome-overlay" class="text-center px-4">
+        <p class="mb-2 tracking-widest text-sm uppercase">Undangan Ngunduh Mantu</p>
+        <h1 class="text-5xl md:text-6xl font-serif mb-6">Rizki & Zikha</h1>
+        <p class="mb-2 text-sm">Kepada Yth. Bapak/Ibu/Saudara/i</p>
+        <h2 id="guest-name" class="text-2xl font-semibold mb-8 border-b-2 border-white pb-2 inline-block">Tamu Undangan</h2>
+        <br>
+        <button onclick="openInvitation()" class="bg-sage text-white px-8 py-3 rounded-full hover:bg-opacity-90 transition shadow-lg flex items-center gap-2 mx-auto">
+            <i class="fas fa-envelope-open-text"></i> Buka Undangan
+        </button>
+    </div>
+
+    <!-- Tombol Musik -->
+    <div id="music-control" class="music-btn hidden" onclick="toggleMusic()">
+        <i class="fas fa-music"></i>
+    </div>
+
+    <!-- Konten Undangan Utama -->
+    <main class="max-w-md mx-auto bg-white min-h-screen shadow-2xl overflow-x-hidden relative pb-20">
+        
+        <!-- Hero Section -->
+        <section class="h-screen flex flex-col items-center justify-center text-center px-6 bg-[url('https://www.transparenttextures.com/patterns/cream-paper.png')]">
+            <div data-aos="fade-down" data-aos-duration="1500">
+                <p class="text-sage font-medium tracking-widest uppercase mb-4 text-sm">Undangan Ngunduh Mantu</p>
+                <h1 class="text-3xl md:text-4xl font-serif text-gray-800 mb-2">Bp. Yono Las & Ibu Suratmi</h1>
+                <p class="text-gray-500 italic mt-4 mb-6">Mengharap kehadiran Bapak/Ibu pada acara Ngunduh Mantu pernikahan putra-putri kami</p>
+                <h2 class="text-5xl font-serif text-sage my-4">Rizki & Zikha</h2>
+                <p class="text-gray-600 tracking-widest mb-12">3 . OKTOBER . 2026</p>
+            </div>
+            
+            <div class="absolute bottom-10 scroll-down text-sage text-center flex flex-col items-center opacity-70">
+                <span class="text-xs mb-2 tracking-widest">SCROLL KE BAWAH</span>
+                <i class="fas fa-chevron-down text-2xl"></i>
+            </div>
+        </section>
+
+        <!-- Profil Mempelai -->
+        <section class="py-16 px-6 text-center">
+            <h2 class="text-3xl font-serif text-sage mb-10" data-aos="fade-up">Mempelai</h2>
+            
+            <!-- Pria -->
+            <div class="mb-12" data-aos="fade-right">
+                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgkj970vxBfsWBaVkNk72OLijHJFJVLGlV_xEz1Zt6lOeZ6GJXjhqCrMamW-mO8sBCBDrwSy5rrn8p9Ji9PPxespRaWNYa4p7AGcGXfRJ_BclHWeKX-hOQHuk9ok3rVpBK8_Hp97XhZJAYoRNYXClVpemNWEQvspbeJJ4o8nJKAUW7otVWlvbeUQ0urllip/s6240/Sarasvati.officiall-115.jpg" alt="Rizki" class="w-48 h-64 object-cover mx-auto img-frame mb-4">
+                <h3 class="text-2xl font-serif font-semibold text-gray-800">Rizki Aji Pratama</h3>
+                <p class="text-sm text-gray-500 mt-2">Putra dari<br><span class="font-medium text-gray-700">Bapak Yono Las & Ibu Suratmi</span></p>
+            </div>
+            
+            <div class="text-3xl text-sage font-serif mb-12" data-aos="zoom-in">&</div>
+            
+            <!-- Wanita -->
+            <div data-aos="fade-left">
+                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgZRTayPOgzRVe2fAA795ZCaIc9tbWnzoCsveMojCncmWD2_tkTg64IwxQtAO5HckraNLfPIWLGX7eWWRKocfK3Dn8b2aCTDnQz2He405PViiqTi4Bl7GG37iqZMzmwusNO8qtibX_ylOB5Urj7mo-dNE6mf6ZAO79SLMbJi4pbzPj0uJgygwcP7SXYtKOn/s6240/Sarasvati.officiall-35.jpg" alt="Zikha" class="w-48 h-64 object-cover mx-auto img-frame mb-4">
+                <h3 class="text-2xl font-serif font-semibold text-gray-800">Zikha Alfin Nabila</h3>
+                <p class="text-sm text-gray-500 mt-2">Putri dari<br><span class="font-medium text-gray-700">Bapak Sutrisno & Ibu Maghfiroh</span></p>
+            </div>
+        </section>
+
+        <!-- Detail Acara & Lokasi -->
+        <section class="py-16 px-6 bg-sage text-white text-center rounded-t-[50px]">
+            <h2 class="text-3xl font-serif mb-8" data-aos="fade-up">Detail Acara</h2>
+            
+            <div class="bg-white text-gray-800 p-8 rounded-2xl shadow-lg mb-8" data-aos="zoom-in">
+                <h3 class="text-xl font-serif font-bold text-sage mb-2">Ngunduh Mantu</h3>
+                <p class="text-lg font-medium border-b pb-4 mb-4">Sabtu, 3 Oktober 2026</p>
+                <div class="mb-4">
+                    <i class="fas fa-map-marker-alt text-sage text-2xl mb-2"></i>
+                    <p class="text-sm font-medium">Lokasi Acara:</p>
+                    <p class="text-sm text-gray-600 mt-1">Gejugan, RT.006/RW.001<br>Pelemrejo, Andong, Boyolali</p>
+                </div>
+                <div class="bg-gray-50 p-3 rounded-lg mb-6">
+                    <p class="text-xs text-gray-500 uppercase tracking-wide">Hiburan</p>
+                    <p class="font-semibold text-sage">Ananta Musik Trabas</p>
+                </div>
+                <a href="https://maps.app.goo.gl/ZH7HP4YqCFdZJYSo9" target="_blank" class="inline-block bg-sage text-white px-6 py-2 rounded-full hover:bg-opacity-90 text-sm shadow">
+                    <i class="fas fa-location-arrow mr-1"></i> Buka Google Maps
+                </a>
+            </div>
+        </section>
+
+        <!-- Galeri Animasi -->
+        <section class="py-16 px-6 text-center">
+            <h2 class="text-3xl font-serif text-sage mb-10" data-aos="fade-up">Galeri Kami</h2>
+            <div class="grid grid-cols-2 gap-4">
+                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgExVSPQ-m-BT-w15JGp4exR5EA3zCNA2CrD44QnQ5Wr5JSl2upm5TpLEHktR_7DtTS2pbvd1NfddMuRLsT0GYRri9BEqG4wCazv-3Z0NcA0vTz5d8q-_R5KqI9UNRmDH41mr3ZgOp1VpHy8ui_3UuXotkSHNG7RkK2XMBANdaG_Hqq2ByZ-jljkPsKgvai/s6240/Sarasvati.officiall-140.jpg" class="w-full h-48 object-cover rounded-xl shadow-md" data-aos="fade-right">
+                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgWw_7rR-wXuVyJcPhWPmeoRmF0pO9diQ7L8Ug0vqYR12VVTDcPB_0s47G8P4_9kX_pta-0KFDV-mSA8bBaiDZZUrsoOw4He_arxAZ7TS07ytpzMfA2EW55UhfYG1TeG0CxnIGzc-BK13opp-ubAfEkZkqFutK49_Au8Jp7bujQUtCjWselzSNNXCpvpQxp/s6240/Sarasvati.officiall-148.jpg" class="w-full h-48 object-cover rounded-xl shadow-md" data-aos="fade-left">
+                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjpUR-RWEr7CpPSxnmsJ3auFuoFi004v8bfQ2AeoNqMo4cibbWdzzGwn6uvH14InxXo6BFV0ZhgJsXfaVkGdAQEyNA5m8uq9-8nMq0wRxu9s2qdh76pYuO6D6eowxMvAoqrZRPxhwvNzFClp1kk3y7BGdViAeCJoRWY9J7XtwBSCcxTifk7GIiyExOfv_Qg/s6240/Sarasvati.officiall-60.jpg" class="w-full h-48 object-cover rounded-xl shadow-md" data-aos="fade-up">
+                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiDFpDod-NIvYN5ZuIzpMDD5VrO4QiKah4R19EVTatYFCjVuTnKC5-FJNkbOm1l91K0RAMpRvxtNwHkYEhgJvjqZYlZLADcr6cQT_Zx8UYdE6PviP0wDCyAcPMK-nNW6TE0_vvYPsUpKXiOkw-V4V9B3LdsoHuKmXSmcI1xlnkWf_kMxKBiZ3CIL1ogPGC2/s6240/Sarasvati.officiall-72.jpg" class="w-full h-48 object-cover rounded-xl shadow-md" data-aos="fade-up" data-aos-delay="100">
+                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEin9_NMHL6AMsiXeEHBwbvWok5KBIhSqIktmWCqHloQmfjALRuI6-mE3f1CFb0w2MEo9tmqae9X4b5SN3b6HMXPUbmibRYHaRvtxzF0E-aP6aHtk7rS5n8q8QTMXTuL9_0SvMTPWHwPbqz9CvAs7YphAgYUDL0cGbk1ZRkLMpkrSjK2WGzCgTCYUYVeO34S/s6240/Sarasvati.officiall-15.jpg" class="w-full h-48 object-cover rounded-xl shadow-md col-span-2" data-aos="zoom-in">
+            </div>
+        </section>
+
+        <!-- Penutup -->
+        <section class="py-12 px-6 text-center border-t border-gray-200">
+            <p class="text-sm text-gray-600 mb-4" data-aos="fade-up">Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir untuk memberikan doa restu.</p>
+            <p class="font-serif text-xl text-sage mb-8" data-aos="fade-up">Terima Kasih</p>
+            <h2 class="text-4xl font-serif text-gray-800" data-aos="zoom-in">Rizki & Zikha</h2>
+        </section>
+
+    </main>
+
+    <!-- AOS Script -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Inisialisasi Animasi Scroll
+        AOS.init({
+            once: false,
+            duration: 1000,
+        });
+
+        // Mengambil Nama Tamu dari Link (contoh: index.html?to=Budi)
+        const urlParams = new URLSearchParams(window.location.search);
+        const guestName = urlParams.get('to');
+        if (guestName) {
+            document.getElementById('guest-name').innerText = guestName.replace(/\+/g, ' ');
+        }
+
+        // Fungsi Buka Undangan
+        const music = document.getElementById("bg-music");
+        const musicBtn = document.getElementById("music-control");
+
+        function openInvitation() {
+            document.getElementById("welcome-overlay").classList.add("opened");
+            document.body.style.overflow = "auto";
+            musicBtn.classList.remove("hidden");
+            
+            music.play().catch(()=> {
+                console.log("Autoplay dicekal browser.");
+            });
+        }
+
+        function toggleMusic() {
+            if (music.paused) {
+                music.play();
+                musicBtn.classList.remove("paused");
+                musicBtn.innerHTML = '<i class="fas fa-music"></i>';
+            } else {
+                music.pause();
+                musicBtn.classList.add("paused");
+                musicBtn.innerHTML = '<i class="fas fa-pause"></i>';
+            }
+        }
+    </script>
+</body>
+</html>
