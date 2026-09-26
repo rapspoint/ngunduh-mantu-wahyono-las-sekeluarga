@@ -1,4 +1,11 @@
-<!DOCTYPE html>
+import os
+import shutil
+
+base_dir = '/mnt/data/undangan_ngunduh_mantu_updated_v3'
+os.makedirs(base_dir, exist_ok=True)
+
+# Updated HTML Content with Wedding Gift section
+html_content = """<!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
@@ -96,7 +103,7 @@
 </head>
 <body class="antialiased">
 
-    <!-- Musik Latar (File musik lokal, siap diedit/diganti dengan file MP3 Anda sendiri bernama "music.mp3" di folder yang sama) -->
+    <!-- Musik Latar -->
     <audio id="bg-music" loop>
         <source src="music.mp3" type="audio/mpeg">
     </audio>
@@ -131,7 +138,7 @@
                 <p class="text-gray-600 tracking-widest font-bold mb-4">3 . OKTOBER . 2026</p>
             </div>
             
-            <!-- Tulisan Geser Ke Bawah (Diperjelas dan diposisikan di bawah konten utama halaman pertama) -->
+            <!-- Tulisan Geser Ke Bawah -->
             <div class="absolute bottom-12 scroll-down flex flex-col items-center w-full">
                 <div class="bg-sage text-white px-4 py-2 rounded-full shadow-md flex flex-col items-center">
                     <span class="text-sm font-bold tracking-widest uppercase mb-1">GESER KE BAWAH</span>
@@ -196,6 +203,56 @@
             </div>
         </section>
 
+        <!-- Wedding Gift Section -->
+        <section class="py-16 px-6 bg-gray-50 text-center">
+            <h2 class="text-3xl font-serif text-sage mb-6" data-aos="fade-up">Wedding Gift</h2>
+            <p class="text-sm text-gray-600 mb-8" data-aos="fade-up">Doa Restu Anda merupakan karunia yang sangat berarti bagi kami. Namun, jika Bapak/Ibu/Saudara/i bermaksud memberikan tanda kasih, kami menyediakan fitur di bawah ini:</p>
+            
+            <div class="flex flex-col gap-4">
+                
+                <!-- BRI -->
+                <div class="bg-white p-6 rounded-xl shadow-md" data-aos="fade-up" data-aos-delay="100">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/9/97/Logo_BRI.png" alt="BRI" class="h-6 mx-auto mb-3">
+                    <p class="text-lg font-bold text-gray-800 tracking-wider mb-1" id="rek-bri">339901012619506</p>
+                    <p class="text-sm text-gray-500 mb-3">a.n Rizki Aji Pratama</p>
+                    <button onclick="copyText('rek-bri')" class="text-xs bg-sage text-white px-4 py-1.5 rounded-full hover:bg-opacity-80 transition">
+                        <i class="far fa-copy mr-1"></i> Salin No. Rekening
+                    </button>
+                </div>
+
+                <!-- ShopeePay -->
+                <div class="bg-white p-6 rounded-xl shadow-md" data-aos="fade-up" data-aos-delay="200">
+                    <h3 class="font-bold text-orange-500 mb-2">ShopeePay</h3>
+                    <p class="text-lg font-bold text-gray-800 tracking-wider mb-1" id="rek-shopee">081233858544</p>
+                    <p class="text-sm text-gray-500 mb-3">a.n Rizki Aji Pratama</p>
+                    <button onclick="copyText('rek-shopee')" class="text-xs bg-sage text-white px-4 py-1.5 rounded-full hover:bg-opacity-80 transition">
+                        <i class="far fa-copy mr-1"></i> Salin Nomor
+                    </button>
+                </div>
+
+                <!-- DANA -->
+                <div class="bg-white p-6 rounded-xl shadow-md" data-aos="fade-up" data-aos-delay="300">
+                    <h3 class="font-bold text-blue-500 mb-2">DANA</h3>
+                    <p class="text-lg font-bold text-gray-800 tracking-wider mb-1" id="rek-dana">081233858544</p>
+                    <p class="text-sm text-gray-500 mb-3">a.n Rizki Aji Pratama</p>
+                    <button onclick="copyText('rek-dana')" class="text-xs bg-sage text-white px-4 py-1.5 rounded-full hover:bg-opacity-80 transition">
+                        <i class="far fa-copy mr-1"></i> Salin Nomor
+                    </button>
+                </div>
+
+                <!-- GoPay -->
+                <div class="bg-white p-6 rounded-xl shadow-md" data-aos="fade-up" data-aos-delay="400">
+                    <h3 class="font-bold text-green-500 mb-2">GoPay</h3>
+                    <p class="text-lg font-bold text-gray-800 tracking-wider mb-1" id="rek-gopay">081233858544</p>
+                    <p class="text-sm text-gray-500 mb-3">a.n Rizki Aji Pratama</p>
+                    <button onclick="copyText('rek-gopay')" class="text-xs bg-sage text-white px-4 py-1.5 rounded-full hover:bg-opacity-80 transition">
+                        <i class="far fa-copy mr-1"></i> Salin Nomor
+                    </button>
+                </div>
+
+            </div>
+        </section>
+
         <!-- Penutup -->
         <section class="py-12 px-6 text-center border-t border-gray-200">
             <p class="text-sm text-gray-600 mb-4" data-aos="fade-up">Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir untuk memberikan doa restu.</p>
@@ -204,6 +261,11 @@
         </section>
 
     </main>
+
+    <!-- Notifikasi Salin -->
+    <div id="toast" class="fixed top-5 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white px-6 py-3 rounded-full shadow-lg opacity-0 transition-opacity duration-300 pointer-events-none z-50">
+        Nomor berhasil disalin!
+    </div>
 
     <!-- AOS Script -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
@@ -246,6 +308,63 @@
                 musicBtn.innerHTML = '<i class="fas fa-pause"></i>';
             }
         }
+
+        // Fungsi Copy Nomor Rekening/E-Wallet
+        function copyText(elementId) {
+            const textToCopy = document.getElementById(elementId).innerText;
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                showToast();
+            }).catch(err => {
+                console.error('Gagal menyalin text: ', err);
+            });
+        }
+
+        function showToast() {
+            const toast = document.getElementById("toast");
+            toast.style.opacity = "1";
+            setTimeout(() => {
+                toast.style.opacity = "0";
+            }, 2500);
+        }
     </script>
 </body>
-</html>
+</html>"""
+
+# Write HTML file
+with open(os.path.join(base_dir, 'index.html'), 'w') as f:
+    f.write(html_content)
+
+# Copy the dummy mp3 file
+with open(os.path.join(base_dir, 'music.mp3'), 'wb') as f:
+    f.write(b"dummy mp3 content")
+
+# Copy the README file
+readme_content = """# Undangan Digital Ngunduh Mantu
+
+## Cara Deploy ke GitHub Pages:
+1. Buat repository baru di GitHub (misal: `undangan-ngunduh-mantu`).
+2. Upload semua file dalam folder ini (`index.html` dan `music.mp3`) ke repository tersebut.
+3. Buka tab **Settings** di repository GitHub Anda.
+4. Pergi ke bagian **Pages** (di menu sebelah kiri).
+5. Pada bagian **Build and deployment**, pastikan Source adalah "Deploy from a branch".
+6. Di bagian **Branch**, pilih branch `main` (atau `master`), lalu klik **Save**.
+7. Tunggu beberapa menit, GitHub akan memberikan link website undangan Anda (contoh: `https://username.github.io/undangan-ngunduh-mantu`).
+
+## Cara Mengganti Musik:
+1. Siapkan file musik (format `.mp3`) yang ingin Anda gunakan.
+2. Ubah nama file musik Anda menjadi **`music.mp3`**.
+3. Timpa/Ganti (replace) file `music.mp3` bawaan dari folder ini dengan file musik Anda sendiri.
+
+## Cara Sebar Undangan dengan Nama Tamu:
+Tambahkan `?to=Nama+Tamu` di akhir link undangan Anda.
+Ganti spasi dengan tanda plus (`+`).
+
+Contoh:
+`https://username.github.io/undangan-ngunduh-mantu/?to=Bapak+Budi+dan+Keluarga`
+"""
+with open(os.path.join(base_dir, 'README.md'), 'w') as f:
+    f.write(readme_content)
+
+# Zip the updated directory
+shutil.make_archive('/mnt/data/undangan_ngunduh_mantu_updated_v3', 'zip', base_dir)
+print("File zip updated v3 berhasil dibuat.")
